@@ -1,15 +1,14 @@
+#
+#(c) Microsoft. All rights reserved.
+#
 """
-(c) Microsoft. All rights reserved.
+This file tests out using ParameterValidator on class methods. Note that you CAN
+use it on the __init__ function as well assuming you have parameters other than self.
 """
 import sys
 import typing
 sys.path.append("./src")
 from src.paramvalidator import ParameterValidator, ParameterValidationException
-
-"""
-This file tests out using ParameterValidator on class methods. Note that you CAN
-use it on the __init__ function as well assuming you have parameters other than self.
-"""
 
 
 class TestClass:
