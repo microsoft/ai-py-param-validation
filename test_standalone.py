@@ -20,13 +20,13 @@ The int and string are required, but the list is not.
 ParameterValidator inputs line up directly against the defined parameters 
 in the method signature. 
 """    
-@ParameterValidator((int, False), (str, False), (list, True))
+@ParameterValidator((int, False, (3,5)), (str, False), (list, True))
 def myfunc(num, str, list):
     print("Hello from standalone function")
 
 
 # Splatting
-single_args = [1, "hey", None]
+single_args = [3, "hey", None]
 print("Standalone Args Splatting - success")
 myfunc(*single_args)
 
@@ -39,6 +39,13 @@ except ParameterValidationException as ex:
     print("\tException caught", ex.__class__.__name__)
     print("\t",str(ex))
 
+# Standard call but make first parameter None where it's out of range
+try:
+    print("Standalone Args Standard - failure on range of parameter")
+    myfunc(1, "hey", None)
+except ParameterValidationException as ex:
+    print("\tException caught", ex.__class__.__name__)
+    print("\t",str(ex))
 
 """
 In this case our method pre-defines all of it's parameters, i.e. 

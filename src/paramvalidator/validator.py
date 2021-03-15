@@ -20,6 +20,7 @@ from paramvalidator.exceptions import (
     ParameterTypeValidationException,
     ParameterKwargValidationException,
     ParameterCountValidationException,
+    ParameterRangeValidationException,
     ParameterValidationException
 )
 
@@ -171,7 +172,9 @@ class ParameterValidator:
         None
 
         Throws:
-        ParameterTypeValidationException if there is an issue
+        ParameterNoneValidationException if a param not allowed null but is
+        ParameterTypeValidationException if arg type does not match validation
+        ParameterRangeValidationException if numeric type is out of range
         """
         if not validation[1] and (argument is None):
             # Not allowed None but is
@@ -182,3 +185,7 @@ class ParameterValidator:
         elif not isinstance(argument, validation[0]):
             # Not none and have value, types to not match.
             raise ParameterTypeValidationException(func, param_index, type(argument), validation[0])
+        elif len(validation) == 3 and isinstance(validation[2], tuple):
+            if isinstance(argument,int) or isinstance(argument, float):
+                if argument < validation[2][0] or argument > validation[2][1]:
+                    raise ParameterRangeValidationException(func, param_index, validation[2], argument)

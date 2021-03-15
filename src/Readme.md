@@ -10,6 +10,16 @@ To use this functionality, you need to use the validation_decorator.ParameterVal
 
 Regardless of method type (standalone or class) you can use one of two options
 
+### Validation Tuples
+In all cases there is a validation tuple defined as 
+
+||||
+|--|--|--|
+|t[0]|Required|Type of parameter to expect.|
+|t[1]|Required|Boolean True or False indicates whether the value can be None (True) or must have a valid value (False)|
+|t[2]|Optional|If present it contains a tuple with an acceptable range in (low,high) format. This will only be validated on int/float argument types.|
+
+
 ### 1 - Function has well defined arguments
 If you have well defined arguments such as below, this is straight forward
 
@@ -17,9 +27,7 @@ If you have well defined arguments such as below, this is straight forward
 """
 This function takes two parameters, both of which are expected to be integers.
 
-The input to ParameterValidation is a list of tuples where
-[0] = Expected parameter type
-[1] = True if it can be None, False otherwise
+NOTE: No range provided, for range tests see test_standalone.py
 
 There MUST be the same number of definitions passed to ParameterValidator as the number of parameters passed to the method itself.
 """
