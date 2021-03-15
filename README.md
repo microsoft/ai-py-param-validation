@@ -2,6 +2,10 @@
 
 Parameter validation utility for Python methods whether they are standalone or in a class. 
 
+Install: pip install .
+
+Test: pytest tests
+
 See src/Readme.md for more details.
 
 See test_class.py for using the utility with a class.

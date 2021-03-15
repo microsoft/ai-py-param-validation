@@ -49,23 +49,24 @@ class TestClass:
         print("Hello from kwargs class function")
 
 
-td = TestClass()
-print("Class Args Standard - success")
-td.myfunc(1, "str", [])
+def test_class():
+    td = TestClass()
+    print("Class Args Standard - success")
+    td.myfunc(1, "str", [])
 
-try:
-    print("Class Args Standard - inappropriate None")
-    td.myfunc(None, "hey", None)
-except ParameterValidationException as ex:
-    print("\tException caught", ex.__class__.__name__)
-    print("\t",str(ex))
+    try:
+        print("Class Args Standard - inappropriate None")
+        td.myfunc(None, "hey", None)
+    except ParameterValidationException as ex:
+        print("\tException caught", ex.__class__.__name__)
+        print("\t",str(ex))
 
-print("Class Kwargs Standard - success")
-td.mykwfunc(age=25, name="Fred Jones", uncheckedvalue="this will not be checked")
+    print("Class Kwargs Standard - success")
+    td.mykwfunc(age=25, name="Fred Jones", uncheckedvalue="this will not be checked")
 
-try:
-    print("Class Args Standard - invalid data type")
-    td.mykwfunc(age=25, name="hey", addresses="main st")
-except ParameterValidationException as ex:
-    print("\tException caught", ex.__class__.__name__)
-    print("\t",str(ex))
+    try:
+        print("Class Args Standard - invalid data type")
+        td.mykwfunc(age=25, name="hey", addresses="main st")
+    except ParameterValidationException as ex:
+        print("\tException caught", ex.__class__.__name__)
+        print("\t",str(ex))
