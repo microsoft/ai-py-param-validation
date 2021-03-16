@@ -34,6 +34,12 @@ There MUST be the same number of definitions passed to ParameterValidator as the
 @ParameterValidator((int, False), (int, False))
 def add(num: int, num: int):
     print("Hello from standalone function")
+
+# And you can validate int/floats with a range such as 
+@ParameterValidator((int, False,(3,5)), (int, False,(500,1000))
+def add(num: int, num: int):
+    print("Hello from standalone function")
+    
 ```
 
 ### 2 - Function takes a variable number of parameters in kwargs (dict)
