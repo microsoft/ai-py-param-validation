@@ -7,14 +7,20 @@ use it on the __init__ function as well assuming you have parameters other than 
 """
 import sys
 import typing
-
 import os
 
-cur = os.getcwd()
-path_split = os.path.split(cur)
-if os.path.exists(os.path.join(path_split[0], 'src')):
-    print("ADDING PATH")
-    sys.path.append(os.path.join(path_split[0], 'src'))
+attempts=1
+found=False
+cur_path = os.getcwd()
+
+while not found:
+    if os.path.exists(os.path.join(cur_path, 'src')):
+        sys.path.append(os.path.join(cur_path, 'src'))
+        found = True
+    cur_path = os.path.split(cur_path)[0]
+    if attempts >= 3:
+        break
+    attempts += 1
 
 from paramvalidator import ParameterValidator, ParameterValidationException
 from paramvalidator.exceptions import (
