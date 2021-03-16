@@ -3,8 +3,21 @@
 #
 """This file tests ParameterValidator on standalone Python methods."""
 import sys
-sys.path.append("./src")
-from src.paramvalidator import ParameterValidator, ParameterValidationException
+import os
+
+cur = os.getcwd()
+path_split = os.path.split(cur)
+if os.path.exists(os.path.join(path_split[0], 'src')):
+    sys.path.append(os.path.join(path_split[0], 'src'))
+
+from paramvalidator import ParameterValidator, ParameterValidationException
+from paramvalidator.exceptions import (
+    ParameterNoneValidationException,
+    ParameterTypeValidationException,
+    ParameterKwargValidationException,
+    ParameterCountValidationException,
+    ParameterRangeValidationException
+)
 
 
 def test_predefine_params():
@@ -23,7 +36,7 @@ def test_predefine_params():
         print("Hello from standalone function")
 
 
-    # Splatting
+    # Splatting - OK
     single_args = [3, "hey", None]
     print("Standalone Args Splatting - success")
     myfunc(*single_args)
@@ -34,7 +47,7 @@ def test_predefine_params():
         print("Standalone Args Standard - failure on invalid type for parameter")
         myfunc("1", "hey", None)
     except ParameterValidationException as ex:
-        print("\tException caught", ex.__class__.__name__)
+        assert(isinstance(ex, ParameterTypeValidationException))
         print("\t",str(ex))
 
     # Standard call but make first parameter None where it's out of range
@@ -42,7 +55,14 @@ def test_predefine_params():
         print("Standalone Args Standard - failure on range of parameter")
         myfunc(1, "hey", None)
     except ParameterValidationException as ex:
-        print("\tException caught", ex.__class__.__name__)
+        assert(isinstance(ex, ParameterRangeValidationException))
+        print("\t",str(ex))
+
+    try:
+        print("Standalone Args Standard - failure on range of parameter")
+        myfunc(None, "hey", None)
+    except ParameterValidationException as ex:
+        assert(isinstance(ex, ParameterNoneValidationException))
         print("\t",str(ex))
 
 def test_predfined_params_2():
@@ -72,5 +92,6 @@ def test_predfined_params_2():
         print("Standalone Kwargs Standard - failure on missing required param")
         mykwfunc(age=25)
     except ParameterValidationException as ex:
-        print("\tException caught", ex.__class__.__name__)
+        assert(isinstance(ex, ParameterKwargValidationException))
         print("\t",str(ex))
+

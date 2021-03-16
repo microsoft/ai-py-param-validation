@@ -7,11 +7,25 @@ use it on the __init__ function as well assuming you have parameters other than 
 """
 import sys
 import typing
-sys.path.append("./src")
-from src.paramvalidator import ParameterValidator, ParameterValidationException
 
+import os
 
-class TestClass:
+cur = os.getcwd()
+path_split = os.path.split(cur)
+if os.path.exists(os.path.join(path_split[0], 'src')):
+    print("ADDING PATH")
+    sys.path.append(os.path.join(path_split[0], 'src'))
+
+from paramvalidator import ParameterValidator, ParameterValidationException
+from paramvalidator.exceptions import (
+    ParameterNoneValidationException,
+    ParameterTypeValidationException,
+    ParameterKwargValidationException,
+    ParameterCountValidationException,
+    ParameterRangeValidationException
+)
+
+class ValidationClass:
     def __init__(self):
         pass
 
@@ -43,13 +57,13 @@ class TestClass:
     However, if the tuple bool value is True, if the parameter is not in kwargs it will
     not produce a failure.  
     """    
-    @ParameterValidator(age=(int, False), name=(str, False), addresses=(list, True))
+    @ParameterValidator(age=(int, False, (25,50)), name=(str, False), addresses=(list, True))
     def mykwfunc(self, **kwargs):
         print("Hello from kwargs class function")
 
 
 def test_class():
-    td = TestClass()
+    td = ValidationClass()
     print("Class Args Standard - success")
     td.myfunc(1, "str", [])
 
@@ -57,15 +71,29 @@ def test_class():
         print("Class Args Standard - inappropriate None")
         td.myfunc(None, "hey", None)
     except ParameterValidationException as ex:
-        print("\tException caught", ex.__class__.__name__)
+        assert(isinstance(ex, ParameterNoneValidationException))
         print("\t",str(ex))
 
-    print("Class Kwargs Standard - success")
+    print("Class Kwargs - success")
     td.mykwfunc(age=25, name="Fred Jones", uncheckedvalue="this will not be checked")
 
     try:
-        print("Class Args Standard - invalid data type")
+        print("Class KwArgs - invalid data type")
         td.mykwfunc(age=25, name="hey", addresses="main st")
     except ParameterValidationException as ex:
-        print("\tException caught", ex.__class__.__name__)
+        assert(isinstance(ex, ParameterTypeValidationException))
+        print("\t",str(ex))
+
+    try:
+        print("Class KwArgs - out of range")
+        td.mykwfunc(age=10, name="hey")
+    except ParameterValidationException as ex:
+        assert(isinstance(ex, ParameterRangeValidationException))
+        print("\t",str(ex))
+
+    try:
+        print("Class KwArgs - invalid data type")
+        td.mykwfunc(age=25)
+    except ParameterValidationException as ex:
+        assert(isinstance(ex, ParameterKwargValidationException))
         print("\t",str(ex))
