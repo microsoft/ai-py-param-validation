@@ -119,8 +119,8 @@ def test_predfined_params_kwargs():
     except ParameterValidationException as ex:
         print("\t",type(ex), str(ex))
         assert(
-           # isinstance(ex, ParameterKwargValidationException)
-           # or
+            isinstance(ex, ParameterKwargValidationException)
+            or
             isinstance(ex, ParameterCountValidationException)
             )
 
