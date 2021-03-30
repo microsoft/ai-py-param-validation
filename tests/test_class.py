@@ -1,6 +1,6 @@
-#
-#(c) Microsoft. All rights reserved.
-#
+#  ---------------------------------------------------------
+#  Copyright (c) Microsoft Corporation. All rights reserved.
+#  ---------------------------------------------------------
 """
 This file tests out using ParameterValidator on class methods. Note that you CAN
 use it on the __init__ function as well assuming you have parameters other than self.
