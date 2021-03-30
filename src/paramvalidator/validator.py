@@ -28,24 +28,28 @@ from paramvalidator.exceptions import (
 class ParameterValidator:
     """
     Function decorator to validate arguments to a function. This can be used
-    to ensure that parameters are (1) present, (2) meet a type requirement and
-    (3) actually have a value and are not None (if desired)
+    to ensure that parameters are (1) present, (2) meet a type requirement
+    (3) actually have a value and are not None (if desired) (4) if int/float 
+    type that they are within a range.
+
+    Range is completely optional but type and if none cannot be
 
     For functions that expect a set number of arguments, you seed the class with
     a free formed list of tuples that are in the form
     (
         Argument expected type,
         Boolean - true = can be None, false = must be present
+        tuple - Optional - range for int float, i.e. (1,100) or (0.0, 1.0)
     )
 
-    i.e. ( (int, True), (str, False), (list, True))
+    i.e. ( (int, True, (3,5)), (str, False), (list, True))
 
     For functions that expect to use the kwargs for variable arguments you can also
     validate that certain required fields are always in the input with a slight change
     to the above format, you set up kwargs using the name of the field expected with
     the same format above.
 
-    i.e. ( age=(int, True), name=(str, False), addresses=(list, True))
+    i.e. ( age=(int, True, (3,5)), name=(str, False), addresses=(list, True))
     """
     def __init__(self, *args, **kwargs):
         """
@@ -92,12 +96,23 @@ class ParameterValidator:
             if len(args_to_validate) and (len(args) != func.__code__.co_argcount):
                 raise ParameterCountValidationException(func, len(args))
 
+            # We may have args and kwargs so track if we are checking kwargs
+            validate_kwargs = False
             if len(args_to_validate):
+                validate_kwargs = len(self.validation_kwargs) > 0
                 self._validate_args_arguments(func, args_to_validate, self.validation_args)
-            elif len(kwargs) and len(self.validation_kwargs):
-                self._validate_kwargs_arguments(func, kwargs, self.validation_kwargs)
+            elif len(self.validation_kwargs):
+                validate_kwargs = True
             else:
                 raise ParameterCountValidationException(func, 0)
+
+            # Check kwargs?
+            if validate_kwargs: 
+                # If no kwargs passed we still have to validate because there may
+                # be required kwargs parameters.
+                if not kwargs:
+                    kwargs = {}
+                self._validate_kwargs_arguments(func, kwargs, self.validation_kwargs)
 
             return func(*args, **kwargs)
         return wrapper

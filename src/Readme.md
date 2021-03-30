@@ -8,7 +8,37 @@ This repo has a decorator class that can be used in both cases.
 ## Usage
 To use this functionality, you need to use the validation_decorator.ParameterValidator to decorate your methods.
 
-Regardless of method type (standalone or class) you can use one of two options
+Regardless of method type there are multiple options, with examples:
+
+1. A function that has all predefined arguments
+```python
+    """
+    Have to define an entry for each incoming parameter, in this case 2 ints
+    that cannot be None
+    """
+    @ParameterValidator((int, False), (int, False))
+    def myfunc(param1, param2)
+```
+2. A function that has only kwargs
+```python
+    """
+    Define only the arguments you expect. In this case one int (count) and 
+    one string (name) where neither can be None. 
+
+    If passed True (can be None) no error is thrown if the field is not in kwargs.
+    """
+    @ParameterValidator(count=(int, False), name=(str, False))
+    def myfunc(**kwwargs)
+```
+3. A function with mixed predefined args and kwargs
+```python
+    """
+    A mix of above, for all predefined arguments you MUST have an entry, but 
+    for kwargs define only what you want to verify.
+    """
+    @ParameterValidator((int, False), name=(str, False))
+    def myfunc(count, **kwwargs)
+```
 
 ### Validation Tuples
 In all cases there is a validation tuple defined as 
@@ -34,6 +64,12 @@ There MUST be the same number of definitions passed to ParameterValidator as the
 @ParameterValidator((int, False), (int, False))
 def add(num: int, num: int):
     print("Hello from standalone function")
+
+# And you can validate int/floats with a range such as 
+@ParameterValidator((int, False,(3,5)), (int, False,(500,1000))
+def add(num: int, num: int):
+    print("Hello from standalone function")
+    
 ```
 
 ### 2 - Function takes a variable number of parameters in kwargs (dict)
