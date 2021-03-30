@@ -29,7 +29,7 @@ from paramvalidator.exceptions import (
 )
 
 
-def test_predefine_params():
+def test_predefine_params_args():
     """
     In this case our method pre-defines all of it's parameters, i.e. 
 
@@ -50,6 +50,15 @@ def test_predefine_params():
     print("Standalone Args Splatting - success")
     myfunc(*single_args)
 
+
+    # Splatting - Too many arguments
+    single_args.append("One too many")
+    try:
+        print("Standalone Args Splatting - success")
+        myfunc(*single_args)
+    except ParameterValidationException as ex:
+        assert(isinstance(ex, ParameterCountValidationException))
+        print("\t",str(ex))
 
     # Standard call but make first parameter None where it's not allowed
     try:
@@ -74,7 +83,7 @@ def test_predefine_params():
         assert(isinstance(ex, ParameterNoneValidationException))
         print("\t",str(ex))
 
-def test_predfined_params_2():
+def test_predfined_params_kwargs():
     """
     In this case our method pre-defines all of it's parameters, i.e. 
 
@@ -100,6 +109,33 @@ def test_predfined_params_2():
     try:
         print("Standalone Kwargs Standard - failure on missing required param")
         mykwfunc(age=25)
+    except ParameterValidationException as ex:
+        assert(isinstance(ex, ParameterKwargValidationException))
+        print("\t",str(ex))
+
+    try:
+        print("Standalone Kwargs Standard - failure on missing required param 2")
+        mykwfunc()
+    except ParameterValidationException as ex:
+        print("\t",type(ex), str(ex))
+        assert(
+            isinstance(ex, ParameterKwargValidationException)
+            or
+            isinstance(ex, ParameterCountValidationException)
+            )
+
+def test_params_mixed():
+
+    @ParameterValidator((int, False), name=(str,False))
+    def mymixedfunc(num, **kwargs):
+        print("Hello from standalone function")
+
+    print("Standalone Mixed - ok")
+    mymixedfunc(3, name="Name")
+
+    try:
+        print("Standalone Mixed - failure on missing required param")
+        mymixedfunc(3)
     except ParameterValidationException as ex:
         assert(isinstance(ex, ParameterKwargValidationException))
         print("\t",str(ex))

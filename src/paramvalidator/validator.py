@@ -96,12 +96,23 @@ class ParameterValidator:
             if len(args_to_validate) and (len(args) != func.__code__.co_argcount):
                 raise ParameterCountValidationException(func, len(args))
 
+            # We may have args and kwargs so track if we are checking kwargs
+            validate_kwargs = False
             if len(args_to_validate):
+                validate_kwargs = len(self.validation_kwargs) > 0
                 self._validate_args_arguments(func, args_to_validate, self.validation_args)
-            elif len(kwargs) and len(self.validation_kwargs):
-                self._validate_kwargs_arguments(func, kwargs, self.validation_kwargs)
+            elif len(self.validation_kwargs):
+                validate_kwargs = True
             else:
                 raise ParameterCountValidationException(func, 0)
+
+            # Check kwargs?
+            if validate_kwargs: 
+                # If no kwargs passed we still have to validate because there may
+                # be required kwargs parameters.
+                if not kwargs:
+                    kwargs = {}
+                self._validate_kwargs_arguments(func, kwargs, self.validation_kwargs)
 
             return func(*args, **kwargs)
         return wrapper
