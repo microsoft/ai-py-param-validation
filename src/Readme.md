@@ -28,7 +28,7 @@ Regardless of method type there are multiple options, with examples:
     If passed True (can be None) no error is thrown if the field is not in kwargs.
     """
     @ParameterValidator(count=(int, False), name=(str, False))
-    def myfunc(**kwwargs)
+    def myfunc(**kwargs)
 ```
 3. A function with mixed predefined args and kwargs
 ```python
@@ -103,15 +103,15 @@ Test it using splatting and with set parameters
 ```python
 # Splatting
 single_args = [1, "hey", None]
-print("Standalone Args Splatting -")
+print("Standalone args Splatting -")
 myfunc(*single_args)
 
 # Standard call
-print("Standalone Args Standard -")
+print("Standalone args Standard -")
 myfunc(1, "hey", None)
 ```
 
-# Example 2 - Standalone function using kwargs
+## Example 2 - Standalone function using kwargs
 Function
 ```python
 # Test standalone method with kwargs
@@ -121,11 +121,11 @@ def mykwfunc(**kwargs):
 ```
 And test this
 ```python
-print("Standalone Kwargs Standard -")
+print("Standalone kwargs Standard -")
 mykwfunc(age=25, name="Fred Jones")
 ```
 
-# Example 3 - Class with both types of functions
+## Example 3 - Class with both types of functions
 Class definition:
 ```python
 class TestDecorator:
@@ -143,8 +143,8 @@ class TestDecorator:
 And finally, test the class
 ```python
 td = TestDecorator()
-print("Class Args Standard -")
+print("Class args Standard -")
 td.myfunc(1, "str", [])
-print("Class Kwargs Standard -")
+print("Class kwargs Standard -")
 td.mykwfunc(age=25, name="Fred Jones")
 ```

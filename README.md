@@ -1,15 +1,20 @@
 # Project
+Validating function/method inputs can prevent many problems down the road
+once software has been released. This quick and somewhat painless process
+can be achieved either through several lines of validation code in each
+method or can be managed in Python by decorating a function with the
+ParameterValidator utility.
 
-Parameter validation utility for Python methods whether they are standalone or in a class. 
+This ParameterValidator utility is designed for Python methods whether they are standalone or in a class. 
 
-Install: pip install .
+Install: `pip install .`
 
-Test: pytest tests
+Test: `pytest tests`
 
-See src/Readme.md for more details.
+See [src/Readme.md](./src/Readme.md) for more details.
 
-See test_class.py for using the utility with a class.
-See test_standalone for using with standalone methods. 
+See `test_class.py` for using the utility with a class.
+See `test_standalone` for using with standalone methods. 
 
 ## Contributing
 
