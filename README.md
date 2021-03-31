@@ -11,10 +11,12 @@ Install: `pip install .`
 
 Test: `pytest tests`
 
-See [src/Readme.md](./src/Readme.md) for more details.
 
-See `test_class.py` for using the utility with a class.
-See `test_standalone` for using with standalone methods. 
+See [src/Readme.md](./src/Readme.md) for more usage examples.
+
+ParameterValidator tests are included:
+See [tests/test_class.py](./tests/test_class.py) for using the utility with a class.
+See [tests/test_standalone.py](./tests/test_standalone.py) for using with standalone methods. 
 
 ## Contributing
 
