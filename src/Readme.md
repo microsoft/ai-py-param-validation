@@ -6,7 +6,7 @@ This is true whether the method is free standing (outside a class) or contained 
 This repo has a decorator class that can be used in both cases.
 
 ## Usage
-To use this functionality, you need to use the validation_decorator.ParameterValidator to decorate your methods.
+To use this functionality, you need to use the `validation_decorator.ParameterValidator` to decorate your methods.
 
 Regardless of method type there are multiple options, with examples:
 

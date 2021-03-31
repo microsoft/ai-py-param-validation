@@ -1,4 +1,6 @@
 # Project
+The `validation_decorator` package is a collection (eventually) of helpers to improve software quality in when developing python code.
+
 Validating function/method inputs can prevent many problems down the road
 once software has been released. This quick and somewhat painless process
 can be achieved either through several lines of validation code in each
