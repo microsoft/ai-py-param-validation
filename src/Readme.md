@@ -6,9 +6,23 @@ This is true whether the method is free standing (outside a class) or contained 
 This repo has a decorator class that can be used in both cases.
 
 ## Usage
-To use this functionality, you need to use the `validation_decorator.ParameterValidator` to decorate your methods.
 
-Regardless of method type there are multiple options, with examples:
+The `ParameterValidator` uses the [python decorator](https://wiki.python.org/moin/PythonDecorators#What_is_a_Decorator) pattern. You will import both the `ParameterValidator` and `ParameterValidationException`.
+
+```python
+from paramvalidator import ParameterValidator, ParameterValidationException
+from paramvalidator.exceptions import (
+    ParameterNoneValidationException,
+    ParameterTypeValidationException,
+    ParameterKwargValidationException,
+    ParameterCountValidationException,
+    ParameterRangeValidationException,
+)
+
+```
+To use this functionality, you need to use the `paramvalidator.ParameterValidator` to decorate your methods.
+
+The following examples demonstrate multiple options:
 
 1. A function that has all predefined arguments
 ```python
@@ -19,6 +33,7 @@ Regardless of method type there are multiple options, with examples:
     @ParameterValidator((int, False), (int, False))
     def myfunc(param1, param2)
 ```
+
 2. A function that has only kwargs
 ```python
     """
@@ -30,6 +45,7 @@ Regardless of method type there are multiple options, with examples:
     @ParameterValidator(count=(int, False), name=(str, False))
     def myfunc(**kwargs)
 ```
+
 3. A function with mixed predefined args and kwargs
 ```python
     """
@@ -39,7 +55,6 @@ Regardless of method type there are multiple options, with examples:
     @ParameterValidator((int, False), name=(str, False))
     def myfunc(count, **kwwargs)
 ```
-
 ### Validation Tuples
 In all cases there is a validation tuple defined as 
 
@@ -140,7 +155,7 @@ class TestDecorator:
     def mykwfunc(self, **kwargs):
         print("Hello from kwargs class function")
 ```
-
+a
 And finally, test the class
 ```python
 td = TestDecorator()
