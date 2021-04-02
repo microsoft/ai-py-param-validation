@@ -1,15 +1,26 @@
 # Project
+The `validation_decorator` package is a collection (eventually) of helpers to improve software quality in when developing python code.
 
-Parameter validation utility for Python methods whether they are standalone or in a class. 
+Validating function/method inputs can prevent many problems down the road
+once software has been released. This quick and somewhat painless process
+can be achieved either through several lines of validation code in each
+method or can be managed in Python by decorating a function with the
+`ParameterValidator` utility.
 
-Install: pip install .
+This `ParameterValidator` utility is designed for Python methods whether they are standalone or in a class. 
 
-Test: pytest tests
+Install: `pip install .`
 
-See src/Readme.md for more details.
+Test: `pytest tests`
 
-See test_class.py for using the utility with a class.
-See test_standalone for using with standalone methods. 
+
+See [src/Readme.md](./src/Readme.md) for more usage examples.
+
+`ParameterValidator` tests are included:
+
+See [tests/test_class.py](./tests/test_class.py) for using the utility with a class.
+
+See [tests/test_standalone.py](./tests/test_standalone.py) for using with standalone methods. 
 
 ## Contributing
 
